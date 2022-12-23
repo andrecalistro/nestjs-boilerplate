@@ -1,0 +1,21 @@
+version: "3"
+services:
+  db:
+    image: mysql:5.7
+    container_name: db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: "dev"
+      MYSQL_DATABASE: "dev"
+    ports:
+      - "3306:3306"
+  api:
+    build: .
+    entrypoint: docker-entrypoint.sh
+    container_name: api
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../../api:/home/node/app
+    depends_on:
+      - db
